@@ -71,6 +71,7 @@ public final class Program1PrettyPrint1 extends Program1 {
         assert out.isOpen() : "Violation of: out.is_open";
 
         // TODO - fill in body
+        
 
     }
 
