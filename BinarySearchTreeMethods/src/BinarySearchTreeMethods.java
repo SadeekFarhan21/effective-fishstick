@@ -44,11 +44,25 @@ public final class BinarySearchTreeMethods {
      */
     public static <T extends Comparable<T>> boolean isInTree(BinaryTree<T> t,
             T x) {
-
+        boolean answer = false;
         // TODO - fill in body
-
+        if(t.size() > 0){
+            BinaryTree <T> left = t.newInstance();
+            BinaryTree <T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+            if(x.compareTo(root) > 0){
+                answer = isInTree(right, x);
+            }
+            else if(x.compareTo(root) < 0){
+                answer = isInTree(left, x);
+            }
+            else{
+                answer = true;
+            }
+            t.assemble(root, left, right);
+        }
         // This line added just to make the component compilable.
-        return false;
+        return answer;
     }
 
     /**
@@ -69,9 +83,20 @@ public final class BinarySearchTreeMethods {
     public static <T> T removeSmallest(BinaryTree<T> t) {
 
         // TODO - fill in body
-
+        BinaryTree <T> left = t.newInstance();
+        BinaryTree <T> right = t.newInstance();
+        T smallest;
+        T root = t.disassemble(root, left, right);
+        if(left.size() == 0){
+            smallest = root;
+            t.transferFrom(right);
+        }
+        else {
+            smallest = removeSmallest(left);
+        }
+        t.assemble(root, left, right);
         // This line added just to make the component compilable.
-        return null;
+        return smallest;
     }
 
     /**
