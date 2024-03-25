@@ -38,7 +38,12 @@ public final class CountPrimitiveCalls {
                  */
 
                 // TODO - fill in case
-
+                int length = s.lengthOfBlock();
+                for(int i = 0; i < length; i++){
+                    Statement block = s.removeFromBlock(i);
+                    count += countOfPrimitiveCalls(block);
+                    s.addToBlock(i, block);
+                }
                 break;
             }
             case IF: {
@@ -46,7 +51,10 @@ public final class CountPrimitiveCalls {
                  * Find the number of calls to primitive instructions in the
                  * body of the IF.
                  */
-
+                 Statement s1 = s.newInstance();
+                 Condition c = s.disassembleIf(s1);
+                 count += countOfPrimitiveCalls(s1);
+                 s.assembleIf(c, s1);
                 // TODO - fill in case
 
                 break;
@@ -58,7 +66,11 @@ public final class CountPrimitiveCalls {
                  */
 
                 // TODO - fill in case
-
+                Statement s1 = s.newInstance();
+                Statement s2 = s.newInstance();
+                Condition c = s.disassembleIfElse(s1, s2);
+                count += (countOfPrimitiveCalls(s1) + countOfPrimitiveCalls(s2));
+                s.assembleIfElse(c, s1, s2);
                 break;
             }
             case WHILE: {
@@ -68,7 +80,10 @@ public final class CountPrimitiveCalls {
                  */
 
                 // TODO - fill in case
-
+                Statement s1 = s.newInstance();
+                Condition c = s.disassembleWhile(s1);
+                count += countOfPrimitiveCalls(s1);
+                s.assembleWhile(c, s1);
                 break;
             }
             case CALL: {
@@ -78,6 +93,10 @@ public final class CountPrimitiveCalls {
                  */
 
                 // TODO - fill in case
+                String label = s.disassembleCall();
+                if(label.equals("move") || label.equals("turnleft") || label.equals("turnright") || label.equals("infect") || label.equals("skip")){
+                    count += 1;
+                }
 
                 break;
             }
